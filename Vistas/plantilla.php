@@ -30,6 +30,16 @@
 
 	<body>
 	<script type="text/javascript" src="js/materialize.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			M.updateTextFields();
+		});
+	</script>
+	<script>
+		$(document).ready(function(){
+			$('select').formSelect();
+		});
+	</script>
 		
 		<?php
 			session_start();
