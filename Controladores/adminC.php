@@ -5,20 +5,126 @@ class AdminC{
     }
 
     public function IngresoC(){
-        if(isset($_SESSION['Ingreso']))
-            header("location: index.php?ruta=empleados");
-        if(isset($_POST["usuarioI"])){
-            $datosC = array(    
-                        "usuario"=>$_POST["usuarioI"], 
-                        "clave"=>$_POST["claveI"]);
-            $result = $this->adminM->IngresoM($datosC);
-            if(isset($result)){
-                session_start();
-                $_SESSION['Ingreso']=true;
-                header("location: index.php?ruta=empleados");
+        if(isset($_SESSION['Ingreso'])) {
+            header("location: index.php?ruta=Principal");
+        }
+
+        if(isset($_POST["correo"] ))
+        {
+            
+            $datosC = array(
+
+                        "correo"=>$_POST["correo"], 
+                        "contraseña"=>$_POST["contraseña"]);
+
+            $tablaBD = "usuario";
+
+            $inicio = $this->adminM->VerificardatosM($datosC);
+              
+
+            if (!$inicio) {
+
+                ?>
+                <script>
+                    $.confirm({
+                        theme:'Material',
+                        title: 'Error',
+                        content: "El Usuario No Existe",
+                        type: 'red',
+                        typeAnimated: true,
+                        columnClass: 'medium',
+                        buttons: {
+                            tryAgain: {
+                                text: 'Intentar De Nuevo',
+                                btnClass: 'btn-blue',
+                                action: function(){
+                                    location.href="index.php?ruta=ingresousuario";
+                                }
+                            },
+                            
+            
+                        }
+                        });
+                </script>
+            <?php
+
+            }elseif ($inicio->num_rows)
+            {
+                
+                $pw_temp=$_POST['contraseña'];
+                $row = $inicio->fetch_array(MYSQLI_NUM);
+                $inicio->close();
+                if (password_verify($pw_temp, $row[4])){
+                  
+                    $username=$row[1];
+                    $id_u=$row[0];
+                    $roll=$row[5];
+                    if ( $roll=="Mecanico") {
+                        $rango=$row[9];
+                        $_SESSION['foto']=$row[11];
+                        $_SESSION['nombre']=$row[2];
+                        $_SESSION['apellido']=$row[3];
+                        $_SESSION['rango']=$rango;
+                        $_SESSION['Equipo']=$row[10];
+                    }elseif ($roll=="Empresa") {
+                        $_SESSION['nombre']=$row[2];
+                    
+                    }elseif ($roll=="Cliente") {
+                        $_SESSION['nombre']=$row[2];
+                    $_SESSION['apellido']=$row[3];
+                    }elseif ($roll=="administrador") {
+                        $_SESSION['nombre']=$row[2];
+                        $_SESSION['apellido']=$row[3];
+                    }
+
+                    
+
+                    
+                   
+                            
+                    $_SESSION['username']=$username;
+                    $_SESSION['id_u']=$id_u;
+                    $_SESSION['roll'] =$roll;
+                    
+                    session_start();
+                    setcookie('username',$_SESSION['username'],time()+ 5);
+                    $GLOBALS['entrada']=true;
+                    $_SESSION['Ingreso']=true;
+                    header("location: index.php?ruta=Principal");
+                               
+                        
+                        
+
+                    
+                }else {
+
+                    ?>
+                        <script>
+                            $.confirm({
+                                theme:'Material',
+                                title: 'Error',
+                                content: "Contraseña Incorrecta Ingrese Nuevamente",
+                                type: 'red',
+                                typeAnimated: true,
+                                columnClass: 'medium',
+                                buttons: {
+                                    tryAgain: {
+                                        text: 'Intentar De Nuevo',
+                                        btnClass: 'btn-blue',
+                                        action: function(){
+                                            location.href="index.php?ruta=ingresousuario";
+                                        }
+                                    },
+                                    
+                    
+                                }
+                                });
+                        </script>
+                    <?php
+
+                }
+         
             }
-            else
-                echo "ERROR AL INGRESAR";
         }
     }
 

@@ -1,47 +1,64 @@
+<?php
+
+    $iniciar = new AdminC();
+    $iniciar->IngresoC();
+
+?>
 
 <style>
-  body {
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+    body {
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
 
-  form {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-  }
+    form {
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+        width: 400px; /* Tamaño fijo del fondo blanco */
+    }
 
-  
-  input[type="email"],
-  input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
 
-  input[type="submit"] {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+    input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-  .centered-image {
-    text-align: center;
-    margin-bottom: 20px;
-  }
+    .centered-image {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .center-align {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .btn-flat {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        text-decoration: underline;
+    }
 </style>
 
 <div class="col s12 m12 l12">
     <div class="col s12 m12 l2">
-                
     </div>
     <div class="col s12 m12 l8">
         <form method="post" action="">
@@ -49,10 +66,8 @@
                 <img src="Vistas/imagenes/logo.png" alt="Imagen" width="150">
             </div>
             <div class="col s12 m12 l12">
-                <h5 style="text-align: center">Bienvenido a MathBattles</h5> 
+                <h5 style="text-align: center">Bienvenido a MathBattles</h5>
             </div>
-            
-
             <div class="row">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">contact_mail</i>
@@ -61,31 +76,31 @@
                     <span class="helper-text" name="email" data-error="Email Incorrecto" data-success="Email Correcto">Correo Electrónico</span>
                 </div>
             </div>
-
             <div class="row">
                 <div class="input-field col s12 m12 l12">
                     <i class="material-icons prefix">key</i>
                     <input id="icon_prefix" type="password" name="contraseña" class="validate" required>
                     <label for="icon_prefix">Contraseña</label>
                 </div>
-                
             </div>
-
             <div class="center-align">
                 <input type="submit" value="Ingresar">
             </div>
-            <div class="row"> 
-            <div class="col s12 m12 l12">
-                
+            <div class="row">
+              <div class="col s12 m12 l12">
+                <p style="text-align: center">Al Utilizar Nuestros Servicios Aceptas Nuestros Términos y Condiciones.</p>
+              </div>
             </div>
-
-            <div class="center-align">
-                <a href="index.php?ruta=ingreso" class="waves-effect waves-purple btn-flat">volver a inicio </a>
+            <div class="row">
+                <div class="col s12 m12 l12">
+                </div>
+                <div class="center-align">
+                    <a href="index.php?ruta=ingreso" class="waves-effect waves-purple btn-flat">Volver a inicio</a>
+                </div>
             </div>
-            </div>            
         </form>
     </div>
     <div class="col s12 m12 l2">
-                
     </div>
 </div>
+

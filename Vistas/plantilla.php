@@ -2,7 +2,8 @@
 <html lang="es">
 	<head>
 		<meta charset="utf-8">
-		<title>CRUD</title>
+		<title>MathBattles</title>
+		<link rel="icon" href="Vistas/imagenes/logo.png" type="image/x-icon">
 		<!--Import Google Icon Font-->
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<!--Import Google Icon Font-->
