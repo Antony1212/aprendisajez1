@@ -8,13 +8,13 @@ class RutasM{
             $ruta == 'salir' ||
             $ruta == 'editar')
         {
-            $pagina = "Vistas/modulos/".$ruta. ".php";
+            $pagina = "Vistas/Modulos/".$ruta. ".php";
         }
         else if($ruta == 'index'){
-            $pagina = "Vistas/modulos/ingreso.php";
+            $pagina = "Vistas/Modulos/ingreso.php";
         }
         else {
-            $pagina = "Vistas/modulos/ingreso.php";
+            $pagina = "Vistas/Modulos/ingreso.php";
         }
         return $pagina;
     }

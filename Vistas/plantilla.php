@@ -15,6 +15,11 @@
 	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<!--Import Animate CSS-->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" rel="stylesheet">
 	
 	
     <!--Let browser know website is optimized for mobile-->
@@ -29,7 +34,7 @@
 	</head>
 
 	<body>
-	<script type="text/javascript" src="js/materialize.min.js"></script>
+	
 	<script>
 		$(document).ready(function() {
 			M.updateTextFields();
@@ -54,7 +59,7 @@
 			?>	
 		</section>
 	
-		
+		<script type="text/javascript" src="js/materialize.min.js"></script>
 	</body>
 
 </html>
