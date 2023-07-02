@@ -8,7 +8,7 @@ class AdminC{
         if(isset($_SESSION['Ingreso'])) {
             header("location: index.php?ruta=Principal");
         }
-
+       
         if(isset($_POST["correo"] ))
         {
             
@@ -20,111 +20,103 @@ class AdminC{
             $tablaBD = "usuario";
 
             $inicio = $this->adminM->VerificardatosM($datosC);
-              
 
-            if (!$inicio) {
-
-                ?>
-                <script>
-                    $.confirm({
-                        theme:'Material',
-                        title: 'Error',
-                        content: "El Usuario No Existe",
-                        type: 'red',
-                        typeAnimated: true,
-                        columnClass: 'medium',
-                        buttons: {
-                            tryAgain: {
-                                text: 'Intentar De Nuevo',
-                                btnClass: 'btn-blue',
-                                action: function(){
-                                    location.href="index.php?ruta=ingresousuario";
-                                }
-                            },
-                            
-            
-                        }
-                        });
-                </script>
-            <?php
-
-            }elseif ($inicio->num_rows)
-            {
+            if ($inicio) {
                 
-                $pw_temp=$_POST['contraseña'];
-                $row = $inicio->fetch_array(MYSQLI_NUM);
-                $inicio->close();
-                if (password_verify($pw_temp, $row[4])){
-                  
-                    $username=$row[1];
-                    $id_u=$row[0];
-                    $roll=$row[5];
-                    if ( $roll=="Mecanico") {
-                        $rango=$row[9];
-                        $_SESSION['foto']=$row[11];
-                        $_SESSION['nombre']=$row[2];
-                        $_SESSION['apellido']=$row[3];
-                        $_SESSION['rango']=$rango;
-                        $_SESSION['Equipo']=$row[10];
-                    }elseif ($roll=="Empresa") {
-                        $_SESSION['nombre']=$row[2];
+                echo "<script>
+                        $.confirm({
+                            title: 'Alerta',
+                            content: 'El correo no está registrado en nuestra página',
+                            type: 'red',
+                            theme: 'material',
+                            boxWidth: '30%',
+                            useBootstrap: false,
+                            buttons: {
+                                confirm: {
+                                    text: 'Intentar de Nuevo',
+                                    btnClass: 'btn-blue',
+                                    keys: ['enter'],
+                                    action: function() {
+                                        location.href='index.php?ruta=login';
+                                    }
+                                },
+                                return: {
+                                    text: 'Registrarse',
+                                    btnClass: 'btn-green',
+                                    keys: ['enter'],
+                                    action: function() {
+                                        location.href='index.php?ruta=registrar';
+                                    }
+                                }
+                            }
+                        });
+                    </script>";
+            } else {
+
+                $datos = $this->adminM->ExtraerdatosM($datosC);
+
+                $idUsuariob = $datos['idusuario'];
+                $nombreb = $datos['Nombre'];
+                $apellidosb = $datos['Apellidos'];
+                $correob = $datos['Correo'];
+                $contrasenab = $datos['Contraseña'];
+                $rollb = $datos['Roll'];
+                $contrasena=$_POST["contraseña"];
+                
+                
+               
+                if (password_verify($contrasena,$contrasenab)) {
+                    // Las contraseñas coinciden, continuar con el inicio de sesión
                     
-                    }elseif ($roll=="Cliente") {
-                        $_SESSION['nombre']=$row[2];
-                    $_SESSION['apellido']=$row[3];
-                    }elseif ($roll=="administrador") {
-                        $_SESSION['nombre']=$row[2];
-                        $_SESSION['apellido']=$row[3];
+                    
+                    $_SESSION['idusuario']=$idUsuariob;
+                    $_SESSION['roll'] =$rollb;
+                    $_SESSION['nombre']=$nombreb;
+                    $_SESSION['apellido']=$apellidosb;
+                    $_SESSION['correo']=$correob;
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
                     }
-
-                    
-
-                    
-                   
-                            
-                    $_SESSION['username']=$username;
-                    $_SESSION['id_u']=$id_u;
-                    $_SESSION['roll'] =$roll;
-                    
-                    session_start();
-                    setcookie('username',$_SESSION['username'],time()+ 5);
+                    setcookie('nombre',$_SESSION['nombre'],time()+ 5);
                     $GLOBALS['entrada']=true;
                     $_SESSION['Ingreso']=true;
-                    header("location: index.php?ruta=Principal");
-                               
-                        
-                        
 
-                    
-                }else {
 
-                    ?>
-                        <script>
-                            $.confirm({
-                                theme:'Material',
-                                title: 'Error',
-                                content: "Contraseña Incorrecta Ingrese Nuevamente",
-                                type: 'red',
-                                typeAnimated: true,
-                                columnClass: 'medium',
-                                buttons: {
-                                    tryAgain: {
-                                        text: 'Intentar De Nuevo',
-                                        btnClass: 'btn-blue',
-                                        action: function(){
-                                            location.href="index.php?ruta=ingresousuario";
-                                        }
-                                    },
-                                    
+                   
+                    echo "<script>
+                            M.toast({html: 'Sesión iniciada Exitosamente', displayLength: 1500, completeCallback: function() {
+                                location.href = 'index.php?ruta=empleados';
+                            }});
+                        </script>";
                     
+                } else {
+                    
+                    
+                    echo "<script>
+                        $.confirm({
+                            title: 'Alerta',
+                            content: 'Contraseña incorrecta. Por favor, verifica.',
+                            type: 'red',
+                            theme: 'material',
+                            boxWidth: '30%',
+                            useBootstrap: false,
+                            buttons: {
+                                confirm: {
+                                    text: 'Intentar de Nuevo',
+                                    btnClass: 'btn-red',
+                                    keys: ['enter'],
+                                    action: function() {
+                                        location.href='index.php?ruta=login';
+                                    }
                                 }
-                                });
-                        </script>
-                    <?php
+                            }
+                        });
+                    </script>";
+                }//
 
-                }
-         
             }
+
+
         }
     }
 
@@ -158,26 +150,26 @@ class AdminC{
                     $result = $this->adminM->Registrarusuario($datosC);
 
                     echo "<script>
-                                $.confirm({
-                                    title: 'Alerta',
-                                    content: 'Sus Datos Se Registraron satisfactoriamente',
-                                    type: 'green',
-                                    theme: 'material',
-                                    boxWidth: '30%',
-                                    useBootstrap: false,
-                                    buttons: {
-                                    confirm: {
-                                        text: 'Ingresar',
-                                        btnClass: 'btn-green',
-                                        keys: ['enter'],
-                                        action: function() {
-                                            location.href='index.php?ruta=login';
-                                        }
-                                    }
-                                    }
-                                });
-                  
-                      </script>";
+                               $.confirm({
+                                   title: 'Alerta',
+                                   content: 'Sus Datos Se Registraron satisfactoriamente',
+                                   type: 'green',
+                                   theme: 'material',
+                                   boxWidth: '30%',
+                                   useBootstrap: false,
+                                   buttons: {
+                                   confirm: {
+                                       text: 'Ingresar',
+                                       btnClass: 'btn-green',
+                                       keys: ['enter'],
+                                       action: function() {
+                                           location.href='index.php?ruta=login';
+                                       }
+                                   }
+                                   }
+                               });
+            
+                     </script>";
 
 
                 } else {

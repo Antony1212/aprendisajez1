@@ -1,7 +1,7 @@
 <?php
 
-    $iniciar = new AdminC();
-    $iniciar->IngresoC();
+    $registrar = new AdminC();
+    $registrar->IngresoC();
 
 ?>
 
