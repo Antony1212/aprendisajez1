@@ -3,6 +3,8 @@ class RutasM{
     public function procesaRutasM($ruta){
         if( $ruta == "ingreso" || 
             $ruta == 'empleados' || 
+            $ruta == 'subnivel' || 
+            $ruta == 'pregunta' || 
             $ruta == 'login' || 
             $ruta == 'registrar' || 
             $ruta == 'salir' ||

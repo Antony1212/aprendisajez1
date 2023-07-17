@@ -6,7 +6,7 @@ class AdminC{
 
     public function IngresoC(){
         if(isset($_SESSION['Ingreso'])) {
-            header("location: index.php?ruta=Principal");
+            header("location: index.php?ruta=empleados");
         }
        
         if(isset($_POST["correo"] ))
@@ -148,7 +148,7 @@ class AdminC{
                         "roll"=>$roll);
 
                     $result = $this->adminM->Registrarusuario($datosC);
-
+                    $result = $this->adminM->CrearM($datosC);        
                     echo "<script>
                                $.confirm({
                                    title: 'Alerta',

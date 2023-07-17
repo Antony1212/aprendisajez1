@@ -58,5 +58,54 @@ class EmpleadosM extends ConexionBD{
         $query = "DELETE FROM $tablaBD WHERE id='$id'";
         $resultado = $cbd->query($query);
     }
+
+    public function ExtraernivelM($tablaBD = 'niveles'){
+        $cbd = ConexionBD::cBD();
+        $query = "SELECT *
+                FROM $tablaBD";
+        $result = $cbd->query($query);
+        
+        return $result;
+    }
+
+    public function ExtraervidasM($tablaBD = 'vidas'){
+        $cbd = ConexionBD::cBD();
+        $id_usuario=$_SESSION['idusuario'];
+        $query = "SELECT * FROM $tablaBD where  idvida_usuario='$id_usuario'";
+        $result = $cbd->query($query);
+        
+        return $result;
+    }
+    public function MostrarsubnivelM($datosC, $tablaBD = 'subniveles'){
+        $cbd = ConexionBD::cBD();
+        extract($datosC);
+
+        $_SESSION['Nivel']=$id;
+        $query = "SELECT * FROM subniveles as s,niveles as n WHERE s.idNivel='$id' and n.idNivel='$id'";
+        $resultado = $cbd->query($query);
+       
+        return $resultado;
+    }
+
+    public function ExtraernivelesM( $tablaBD = 'progresousuario'){
+        $cbd = ConexionBD::cBD();
+        $idusuario=$_SESSION['idusuario'];
+        
+        $query = "SELECT * FROM $tablaBD WHERE idUsuario=$idusuario";
+        $resultado = $cbd->query($query);
+       
+
+        return $resultado;
+    }
+
+    public function ExtraerpreguntaM($datosC, $tablaBD = 'subniveles'){
+        $cbd = ConexionBD::cBD();
+        extract($datosC);
+        $query = "SELECT * FROM subniveles WHERE idSubnivel='$id'";
+        $resultado = $cbd->query($query);
+       
+        return $resultado;
+    }
+    
 } 
 ?>

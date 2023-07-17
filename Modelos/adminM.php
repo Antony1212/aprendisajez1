@@ -86,11 +86,70 @@
             $rol = $datosC['roll'];
 
             $contrasenaEncriptada = password_hash($contrasena,PASSWORD_DEFAULT);
-        echo "$contrasenaEncriptada";
+       
             $query = "INSERT INTO $tablaBD (idusuario,Nombre, Apellidos, Correo, Contraseña, Roll) VALUES (null,?, ?, ?, ?, ?)";
             $stmt = $cbd->prepare($query);
             $stmt->bind_param("sssss", $nombre, $apellido, $correo, $contrasenaEncriptada, $rol);
             $stmt->execute();
         }
+
+        public function CrearM($datosC, $tablaBD = 'usuario') {
+            $cbd = ConexionBD::cBD();
+            $correo = $datosC['correo'];
+            $fechaactual= date('Y-m-d H:i:s');
+        
+            // ...
+
+            $selectQuery = "SELECT * FROM $tablaBD WHERE correo = ?";
+            $stmt = $cbd->prepare($selectQuery);
+            $stmt->bind_param("s", $correo);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                // El usuario existe en la tabla, extraer los datos
+                $row = $result->fetch_assoc();
+                $idusuario = $row['idusuario'];
+                $nombre = $row['Nombre'];
+                $apellidos = $row['Apellidos'];
+                $contrasena = $row['Contraseña'];
+                $roll = $row['Roll'];
+
+                // Consulta INSERT para insertar los datos en otra tabla
+                $vidasQuery = "INSERT INTO vidas (idvida, idvida_usuario, nrovida) VALUES (?, ?, ?)";
+                $vidasStmt = $cbd->prepare($vidasQuery);
+                $idvida = null;
+                $nrovida = 3;
+                $vidasStmt->bind_param("sss", $idvida, $idusuario, $nrovida);
+                $vidasStmt->execute();
+                
+                $vidasAffectedRows = $vidasStmt->affected_rows;
+
+                // Consulta INSERT INTO progresousuario
+                $progresoQuery = "INSERT INTO progresousuario (idProgreso, idUsuario, idNivel, fechaInicio, fechaFinal, estado, idSubnivel) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $progresoStmt = $cbd->prepare($progresoQuery);
+                $idProgreso = null;
+                $idNivel = 1;
+                $fechaInicio = $fechaactual;
+                $fechaFinal = '';
+                $estado = 'progreso';
+                $idSubnivel = '1';
+                $progresoStmt->bind_param("sssssss", $idProgreso, $idusuario, $idNivel, $fechaInicio, $fechaFinal, $estado, $idSubnivel);
+                $progresoStmt->execute();
+                
+                $progresoAffectedRows = $progresoStmt->affected_rows;
+                
+                // Comprobar si las inserciones fueron exitosas
+                if ($vidasAffectedRows > 0 && $progresoAffectedRows > 0) {
+                    echo "Inserciones exitosas";
+                } else {
+                    echo "Error al insertar";
+                }
+            }
+
+            // ...
+
+        }
+        
     }
 ?>

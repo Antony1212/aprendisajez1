@@ -47,5 +47,51 @@ class EmpleadosC {
             header('location: index.php?rutas=empleados');
         }
     }
+
+    public function ExtraernivelC(){
+        $result = $this->empleadosM->ExtraernivelM();
+        return $result;
+    }
+
+    public function ExtraervidasC(){
+        if(isset($_SESSION['idusuario'])) {
+
+            $result = $this->empleadosM->ExtraervidasM();
+            return $result;
+            
+        }
+        
+    }
+    
+    public function MostrarsubnivelC(){
+        if (isset($_GET['id'])) {
+            
+            $datosC = array('id' => $_GET['id']);
+            $result = $this->empleadosM->MostrarsubnivelM($datosC);
+            return $result;
+        }
+        
+    }
+
+    public function ExtraernivelesC(){
+       
+            
+            
+            $result = $this->empleadosM->ExtraernivelesM();
+            return $result;
+        
+        
+    }
+
+    public function ExtraerpreguntaC(){
+        if (isset($_GET['idsubnivel'])) {
+            
+            $datosC = array('id' => $_GET['idsubnivel']);
+            $result = $this->empleadosM->ExtraerpreguntaM($datosC);
+            return $result;
+        }
+        
+    }
+    
 }
 ?>
