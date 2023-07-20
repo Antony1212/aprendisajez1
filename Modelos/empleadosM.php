@@ -76,6 +76,14 @@ class EmpleadosM extends ConexionBD{
         
         return $result;
     }
+    public function RecargarVidasM($tablaBD = 'vidas'){
+        $cbd = ConexionBD::cBD();
+        $id_usuario=$_SESSION['idusuario'];
+        $query = "UPDATE vidas SET nrovida=3 WHERE idvida_usuario=$id_usuario";
+        $result = $cbd->query($query);
+        
+        return $result;
+    }
     public function MostrarsubnivelM($datosC, $tablaBD = 'subniveles'){
         $cbd = ConexionBD::cBD();
         extract($datosC);

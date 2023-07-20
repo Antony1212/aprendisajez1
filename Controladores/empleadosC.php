@@ -62,6 +62,15 @@ class EmpleadosC {
         }
         
     }
+    public function RecargarVidasC(){
+        if(isset($_SESSION['idusuario'])) {
+
+            $result = $this->empleadosM->RecargarVidasM();
+           
+            
+        }
+        header('location: index.php?ruta=empleados');
+    }
     
     public function MostrarsubnivelC(){
         if (isset($_GET['id'])) {

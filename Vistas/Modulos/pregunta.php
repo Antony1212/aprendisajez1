@@ -207,13 +207,21 @@ $respuestaCorrecta=$respuesta;
   }
 </style>
 
+<audio id="audio" autoplay loop>
+    <source src="Vistas/sonidos/mario.mp3" type="audio/mp3">
+</audio>
+
+<script>
+  var audio = document.getElementById("audio");
+  audio.volume = 0.3;
+</script>
 <div class="row">
   <div class="col s12 m6 offset-m3">
     <div class="progress-container">
       <div class="progress">
         <div class="determinate"></div>
       </div>
-      <div class="time" id="countdown">10</div>
+      <div class="time" id="countdown">40</div>
     </div>
     <div class="card card-question card-button">
       <div class="card-content center-align">
@@ -288,7 +296,7 @@ $respuestaCorrecta=$respuesta;
         createFirework(); // Llama correctamente al método createFirework()
         showStar();
         showPoints(); // Muestra las estrellas y el "+10" al seleccionar la primera pregunta
-
+        playAudio1();
          // Actualizar datos en la base de datos cuando se acierta la pregunta
        
         $.ajax({
@@ -302,35 +310,13 @@ $respuestaCorrecta=$respuesta;
         
         },
         success: function(response) {
-          $.confirm({
-            title: 'CORRECTO',
-            content: 'Marcaste la respuesta correcta',
-            buttons: {
-                hide: {
-                    text: '',
-                    action: function () {}
-                }
-            },
-            closeIcon: false,
-            autoClose: 'hide|5000',
-            boxWidth: '300px',
-            useBootstrap: false,
-            backgroundDismiss: true,
-            backgroundDismissAnimation: 'shake',
-            containerFluid: false,
-            type: 'blue',
-            typeAnimated: true,
-            animation: 'scale',
-            animateFromElement: false,
-            theme: 'modern',
-            onOpen: function () {
-                $('.jconfirm').css('background-color', 'blue');
-            },
-            onClose: function () {
-                window.location.href = 'index.php?ruta=subnivel&id=' + <?= $idnivelpregunta ?>;
-            }
-        });
+          
           console.log('Datos actualizados correctamente (acierto)');
+
+          setTimeout(function() {
+            location.href ='index.php?ruta=subnivel&id=' + <?= $idnivelpregunta ?>;
+          }, 3000);
+          
         },
         error: function() {
           console.log('Error al actualizar los datos (acierto)');
@@ -344,6 +330,7 @@ $respuestaCorrecta=$respuesta;
       } else {
         showStar();
         showPointsmen();
+        playAudio2();
         
         $.ajax({
         type: 'POST',
@@ -357,35 +344,11 @@ $respuestaCorrecta=$respuesta;
         },
         success: function(response) {
           console.log('Datos actualizados correctamente (fallo)');
-
-          $.confirm({
-              title: 'MAL',
-              content: 'Marcaste la respuesta incorrecta',
-              buttons: {
-                  hide: {
-                      text: '',
-                      action: function () {}
-                  }
-              },
-              closeIcon: false,
-              autoClose: 'hide|5000',
-              boxWidth: '300px',
-              useBootstrap: false,
-              backgroundDismiss: true,
-              backgroundDismissAnimation: 'shake',
-              containerFluid: false,
-              type: 'orange',
-              typeAnimated: true,
-              animation: 'scale',
-              animateFromElement: false,
-              theme: 'modern',
-              onOpen: function () {
-                  $('.jconfirm').css('background-color', 'yellow');
-              },
-              onClose: function () {
-                  window.location.href = 'index.php?ruta=empleados';
-              }
-          });
+          setTimeout(function() {
+            location.href ='index.php?ruta=empleados';
+          }, 3000);
+         
+          
         },
 
         error: function() {
@@ -401,6 +364,17 @@ $respuestaCorrecta=$respuesta;
     } else {
       alert('Por favor, selecciona una respuesta');
     }
+  }
+
+  function playAudio1() {
+    var audio = new Audio('Vistas/sonidos/gano.mp3'); // Cambia 'ruta/a/tiempo-agotado.mp3' por la ruta real del archivo de audio
+    audio.volume = 0.5; // Ajusta el volumen si es necesario
+    audio.play();
+  }
+  function playAudio2() {
+    var audio = new Audio('Vistas/sonidos/perdio.mp3'); // Cambia 'ruta/a/tiempo-agotado.mp3' por la ruta real del archivo de audio
+    audio.volume = 0.5; // Ajusta el volumen si es necesario
+    audio.play();
   }
 
   function createFirework() {
@@ -444,7 +418,7 @@ $respuestaCorrecta=$respuesta;
   $(document).ready(function() {
     var progressBar = $('.determinate');
     var progressWidth = $('.progress').width();
-    var animationDuration = 10000; // Duración en milisegundos (10 segundos)
+    var animationDuration = 40000; // Duración en milisegundos (10 segundos)
     var countdownElement = $('#countdown');
     var countdown = parseInt(countdownElement.text());
 
@@ -453,7 +427,33 @@ $respuestaCorrecta=$respuesta;
       countdownElement.text(countdown);
 
       if (countdown === 0) {
-        clearInterval(interval);
+        showStar();
+        showPointsmen();
+        playAudio();
+        
+        $.ajax({
+        type: 'POST',
+        url: 'Vistas/actualizar_fallo.php', // Ruta a tu archivo PHP que actualiza los datos de acierto
+        data: { 
+          idSubnivel: <?php echo $idnivelpregunta1  ?>,
+          usuariopregunta: <?php echo $usuariopregunta ?>,
+          idnivelpregunta: <?php echo $idnivelpregunta ?>,
+          vidausuario: <?php echo $vidausuario ?>
+        
+        },
+        success: function(response) {
+          console.log('Datos actualizados correctamente (fallo)');
+          setTimeout(function() {
+            location.href ='index.php?ruta=empleados';
+          }, 3000);
+         
+        },
+
+        error: function() {
+          console.log('Error al actualizar los datos (fallo)');
+        }
+        });
+       
       }
     }, 1000);
 
@@ -461,5 +461,35 @@ $respuestaCorrecta=$respuesta;
       // Cuando la animación finalice, establecer el ancho a 100%
       progressBar.width(progressWidth);
     });
+
+    
+  function showStar() {
+    var starImg = document.createElement('img');
+    starImg.src = 'Vistas/imagenes/estrella.png';
+    starImg.className = 'star-image';
+
+    var questionCard = document.querySelector('.card-question');
+    var cardContent = questionCard.querySelector('.card-content');
+    cardContent.appendChild(starImg);
+  }
+
+  
+
+  function showPoints() {
+    var plus101 = document.getElementById('plus-101');
+    plus101.style.display = 'block';
+  }
+  function showPointsmen() {
+    var plus100 = document.getElementById('plus-100');
+    plus100.style.display = 'block';
+  }
+  function playAudio() {
+    var audio = new Audio('Vistas/sonidos/perdio.mp3'); // Cambia 'ruta/a/tiempo-agotado.mp3' por la ruta real del archivo de audio
+    audio.volume = 0.5; // Ajusta el volumen si es necesario
+    audio.play();
+  }
+
   });
 </script>
+
+

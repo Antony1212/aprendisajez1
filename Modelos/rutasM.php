@@ -6,6 +6,7 @@ class RutasM{
             $ruta == 'subnivel' || 
             $ruta == 'pregunta' || 
             $ruta == 'login' || 
+            $ruta == 'recargarvidas' || 
             $ruta == 'registrar' || 
             $ruta == 'salir' ||
             $ruta == 'editar')

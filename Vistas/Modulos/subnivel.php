@@ -3,6 +3,8 @@ $empleados = new EmpleadosC();
 $resultado = $empleados->MostrarsubnivelC();
 
 
+   
+   
 
 foreach ($resultado as $key => $values) {
   
@@ -33,6 +35,14 @@ if (!empty($numeroArray)) {
 
 $respuestaCorrecta=1;
 ?>
+<audio id="audio" autoplay loop>
+    <source src="Vistas/sonidos/fondo1.mp3" type="audio/mp3">
+</audio>
+
+<script>
+  var audio = document.getElementById("audio");
+  audio.volume = 0.2;
+</script>
 
 <style>
   body {
@@ -104,8 +114,8 @@ $respuestaCorrecta=1;
 <div class="bubbles-container">
   <?php foreach ($resultado as $key => $vidas) : ?>
     <div class="bubble">
-      <?php if (($key+1) <= $numeroMasAlto) : ?>
-        <a href="index.php?ruta=pregunta&idsubnivel=<?= $vidas['idSubnivel'] ?>">
+      <?php if (($key + 1) <= $numeroMasAlto) : ?>
+        <a href="index.php?ruta=pregunta&idsubnivel=<?= $vidas['idSubnivel'] ?>" class="bubble-link" data-src="Vistas/sonidos/botones.mp3">
           <span class="bubble-number"><?= $key + 1 ?></span>
         </a>
       <?php else : ?>
@@ -116,6 +126,11 @@ $respuestaCorrecta=1;
     </div>
   <?php endforeach; ?>
 </div>
+
+
+<audio id="audioPlayer">
+  <source src="Vistas/sonidos/botones.mp3" type="audio/mp3">
+</audio>
 
 
 
@@ -311,6 +326,30 @@ $respuestaCorrecta=1;
 </div>
 
 
+<script>
+  var audio = document.getElementById("audioPlayer");
+  audio.volume = 0.4; // Ajusta el volumen aquí si lo deseas.
+
+  var bubbleLinks = document.getElementsByClassName("bubble-link");
+  for (var i = 0; i < bubbleLinks.length; i++) {
+    bubbleLinks[i].addEventListener("click", function(event) {
+      event.preventDefault(); // Evita que se redireccione inmediatamente
+
+      var soundSrc = this.dataset.src;
+      if (soundSrc) {
+        audio.src = soundSrc; // Establece la fuente de audio para reproducir el sonido
+        audio.play(); // Reproduce el sonido
+
+        var link = this;
+        setTimeout(function() {
+          window.location.href = link.href; // Redirecciona después del retraso
+        }, 1000); // 0.5 segundos de retraso (ajusta el tiempo según tus necesidades)
+      } else {
+        window.location.href = this.href; // Redirecciona si no hay sonido
+      }
+    });
+  }
+</script>
 
 <script>
   var selectedAnswer = null;

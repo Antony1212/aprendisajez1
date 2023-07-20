@@ -5,6 +5,7 @@ $resultado = $empleados->ExtraernivelC();
 $vidas = new EmpleadosC();
 $resultadovidas = $vidas->ExtraervidasC();
 
+
 $niveles = new EmpleadosC();
 $resultadoniveles = $niveles->ExtraernivelesC();
 
@@ -258,6 +259,16 @@ body {
 
 </style>
 
+<audio id="audio" autoplay loop>
+    <source src="Vistas/sonidos/fondo1.mp3" type="audio/mp3">
+</audio>
+
+<script>
+  var audio = document.getElementById("audio");
+  audio.volume = 0.3;
+</script>
+
+
 <div class="content">
   <nav>
     <ul>
@@ -267,6 +278,7 @@ body {
       <li><h3 class="white-text text-darken-2">03</h3></li>
       <li><img src="Vistas/imagenes/estrella.png" alt="Estrella" class="heart-img1"></li>
       <li><h3 class="white-text text-darken-2">0<?=$puntaje?></h3></li>
+     
     </ul>
   </nav>
   <div class="row">
@@ -279,7 +291,7 @@ body {
         
       </div>
   <div class="col s4">
-        <a href='index.php?ruta=multijugador' class="waves-effect waves-light btn-large yellow black-text" ><i class="material-icons right">people_alt</i>Multijugador</a>
+        <a href='index.php?ruta=recargarvidas' class="waves-effect waves-light btn-large yellow black-text" ><i class="material-icons left">add</i>Vidas</a>
       </div>
      
     <div class="col s4 offset-s4"><h3>NIVELES</h3></div>
@@ -348,7 +360,7 @@ body {
             <?php else: ?>
               <?php if ($value['nombreNivel'] != "proximamente") {
                 ?>
-                <a href='index.php?ruta=subnivel&id=<?=$value['idNivel']?>' class="tooltip">
+                <a href='index.php?ruta=subnivel&id=<?=$value['idNivel']?>' class="bubble-link" class="tooltip" data-src="Vistas/sonidos/botones.mp3">
                 <?php
               } else {
                 ?>
@@ -374,7 +386,9 @@ body {
    
   </div>
 
-  
+  <audio id="audioPlayer">
+  <source src="Vistas/sonidos/botones.mp3" type="audio/mp3">
+</audio>
 
   <div class="col s5 pull-s7">
     <a href="pagina20.html">
@@ -386,6 +400,32 @@ body {
 <div class="footer">
   <img src="Vistas/imagenes/image1.png" alt="Footer Image">
 </div>
+
+<script>
+  var audio = document.getElementById("audioPlayer");
+  audio.volume = 0.4; // Ajusta el volumen aquí si lo deseas.
+
+  var bubbleLinks = document.getElementsByClassName("bubble-link");
+  for (var i = 0; i < bubbleLinks.length; i++) {
+    bubbleLinks[i].addEventListener("click", function(event) {
+      event.preventDefault(); // Evita que se redireccione inmediatamente
+
+      var soundSrc = this.dataset.src;
+      if (soundSrc) {
+        audio.src = soundSrc; // Establece la fuente de audio para reproducir el sonido
+        audio.play(); // Reproduce el sonido
+
+        var link = this;
+        setTimeout(function() {
+          window.location.href = link.href; // Redirecciona después del retraso
+        }, 1000); // 0.5 segundos de retraso (ajusta el tiempo según tus necesidades)
+      } else {
+        window.location.href = this.href; // Redirecciona si no hay sonido
+      }
+    });
+  }
+</script>
+
 
 <script>
   const hearts = document.querySelectorAll('.heart-img');
