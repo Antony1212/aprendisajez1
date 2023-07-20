@@ -172,6 +172,7 @@ class AdminC{
                      </script>";
 
 
+
                 } else {
                     // Las contraseñas no coinciden, mostrar mensaje de error
                     echo "<script>

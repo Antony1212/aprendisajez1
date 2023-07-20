@@ -9,8 +9,8 @@ $idnivelpregunta = $_POST['idnivelpregunta'];
 
 // Aquí puedes realizar la lógica para actualizar los datos en la base de datos
 // Por ejemplo, puedes usar la conexión PDO establecida previamente
-
 $pdo = new PDO("mysql:host=localhost;dbname=mathbathles", "root", '');
+//$pdo = new PDO("mysql:host=localhost;dbname=id20986735_mathbathles", "id20986735_antony", '.Dotero1512');
 
 $query = "UPDATE progresousuario SET estado = 'culminado', fechaFinal = :hora, puntaje = 10 WHERE idUsuario = :idUsuario AND idNivel = :idNivel AND idSubnivel = :idSubnivel";
 $stmt = $pdo->prepare($query);
@@ -27,7 +27,7 @@ if ($idSubnivel==8) {
     $idSubnivel=$idSubnivel+1;
 }
 
-$query1 = "INSERT INTO progresousuario VALUES (null, $usuariopregunta, $idnivelpregunta, '$fechaHoraActualString', '', 'progreso', $idSubnivel, 0)";
+$query1 = "INSERT INTO progresousuario VALUES (null, $usuariopregunta, $idnivelpregunta, '$fechaHoraActualString', '2000-01-01 00:00:00', 'progreso', $idSubnivel, 0)";
 $stmt1 = $pdo->prepare($query1);
 
 $stmt1->execute();

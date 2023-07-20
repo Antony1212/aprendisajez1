@@ -12,16 +12,20 @@ foreach ($resultado as $key => $values) {
 
 $niveles = new EmpleadosC();
 $resultadoniveles = $niveles->ExtraernivelesC();
-
+$contrador=0;
 foreach ($resultadoniveles as $key => $niveles) {
   if ($_SESSION['Nivel']==$niveles['idNivel']) {
-    $numeroArray[] = $niveles['idSubnivel']; // Agregar cada número al nuevo array
+    $contrador= $contrador+1;
+    $numeroArray[] = $contrador; // Agregar cada número al nuevo array
+    
   }
   }
   
 
 if (!empty($numeroArray)) {
   $numeroMasAlto = max($numeroArray); // Obtener el número mayor del nuevo array
+  $_SESSION['detecccion']=$numeroMasAlto;
+  
 } else {
   $numeroMasAlto = 0;
 }
@@ -100,7 +104,7 @@ $respuestaCorrecta=1;
 <div class="bubbles-container">
   <?php foreach ($resultado as $key => $vidas) : ?>
     <div class="bubble">
-      <?php if ($vidas['idSubnivel'] <= $numeroMasAlto) : ?>
+      <?php if (($key+1) <= $numeroMasAlto) : ?>
         <a href="index.php?ruta=pregunta&idsubnivel=<?= $vidas['idSubnivel'] ?>">
           <span class="bubble-number"><?= $key + 1 ?></span>
         </a>

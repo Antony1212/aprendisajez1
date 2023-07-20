@@ -81,6 +81,8 @@ class EmpleadosM extends ConexionBD{
         extract($datosC);
 
         $_SESSION['Nivel']=$id;
+        $asd=$_SESSION['Nivel'];
+        
         $query = "SELECT * FROM subniveles as s,niveles as n WHERE s.idNivel='$id' and n.idNivel='$id'";
         $resultado = $cbd->query($query);
        
@@ -92,6 +94,7 @@ class EmpleadosM extends ConexionBD{
         $idusuario=$_SESSION['idusuario'];
         
         $query = "SELECT * FROM $tablaBD WHERE idUsuario=$idusuario";
+      
         $resultado = $cbd->query($query);
        
 

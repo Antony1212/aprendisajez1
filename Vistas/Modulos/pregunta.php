@@ -21,29 +21,13 @@ $idnivelpregunta=$_SESSION['Nivel'];
 $vidausuario=$_SESSION['vida'];
 // Ejemplo de uso
 $aleatorio = generarNumero();
-
+$idnivelpregunta1=$_SESSION['detecccion'];
 
 
 $respuestaCorrecta=$respuesta;
 
 
-$pdo = new PDO("mysql:host=localhost;dbname=mathbathles", "root", "");
 
-// Función para actualizar datos en la base de datos cuando se acierta la pregunta
-function actualizarAcierto($pdo, $idSubnivel) {
-  $query = "UPDATE tabla_preguntas SET aciertos = aciertos + 1 WHERE idSubnivel = :idSubnivel";
-  $stmt = $pdo->prepare($query);
-  $stmt->bindParam(':idSubnivel', $idSubnivel);
-  $stmt->execute();
-}
-
-// Función para actualizar datos en la base de datos cuando se falla la pregunta
-function actualizarFallo($pdo, $idSubnivel) {
-  $query = "UPDATE tabla_preguntas SET fallos = fallos + 1 WHERE idSubnivel = :idSubnivel";
-  $stmt = $pdo->prepare($query);
-  $stmt->bindParam(':idSubnivel', $idSubnivel);
-  $stmt->execute();
-}
 ?>
 <style>
   body {
@@ -311,7 +295,7 @@ function actualizarFallo($pdo, $idSubnivel) {
         type: 'POST',
         url: 'Vistas/actualizar_acierto.php', // Ruta a tu archivo PHP que actualiza los datos de acierto
         data: { 
-          idSubnivel: <?php echo $idSubnivel ?>,
+          idSubnivel: <?php echo $idnivelpregunta1 ?>,
           usuariopregunta: <?php echo $usuariopregunta ?>,
           idnivelpregunta: <?php echo $idnivelpregunta ?>,
           vidausuario: <?php echo $vidausuario ?>
@@ -365,7 +349,7 @@ function actualizarFallo($pdo, $idSubnivel) {
         type: 'POST',
         url: 'Vistas/actualizar_fallo.php', // Ruta a tu archivo PHP que actualiza los datos de acierto
         data: { 
-          idSubnivel: <?php echo $idSubnivel ?>,
+          idSubnivel: <?php echo $idnivelpregunta1  ?>,
           usuariopregunta: <?php echo $usuariopregunta ?>,
           idnivelpregunta: <?php echo $idnivelpregunta ?>,
           vidausuario: <?php echo $vidausuario ?>

@@ -124,19 +124,21 @@
                 $vidasStmt->execute();
                 
                 $vidasAffectedRows = $vidasStmt->affected_rows;
-
-                // Consulta INSERT INTO progresousuario
-                $progresoQuery = "INSERT INTO progresousuario (idProgreso, idUsuario, idNivel, fechaInicio, fechaFinal, estado, idSubnivel) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                $progresoStmt = $cbd->prepare($progresoQuery);
+                
                 $idProgreso = null;
                 $idNivel = 1;
                 $fechaInicio = $fechaactual;
                 $fechaFinal = '';
-                $estado = 'progreso';
-                $idSubnivel = '1';
-                $progresoStmt->bind_param("sssssss", $idProgreso, $idusuario, $idNivel, $fechaInicio, $fechaFinal, $estado, $idSubnivel);
-                $progresoStmt->execute();
                 
+                $idSubnivel = '1';
+
+                // Consulta INSERT INTO progresousuario
+                $progresoQuery = "INSERT INTO progresousuario (idProgreso, idUsuario, idNivel, fechaInicio, fechaFinal, estado, idSubnivel,puntaje) VALUES (null,$idusuario, $idNivel, '$fechaactual','2000-01-01 00:00:00', 'progreso', $idSubnivel,0)";
+                echo"$progresoQuery";
+                 $progresoStmt = $cbd->query($progresoQuery);
+              
+                
+               
                 $progresoAffectedRows = $progresoStmt->affected_rows;
                 
                 // Comprobar si las inserciones fueron exitosas
